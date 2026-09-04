@@ -1,0 +1,116 @@
+/* ── Watch Providers section ────────────────────────────────── */
+.section {
+  margin-bottom: var(--space-8);
+}
+
+.sectionLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.empty {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Provider groups ────────────────────────────────────────── */
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.groupLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+}
+
+.providerList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ── Individual provider chip ───────────────────────────────── */
+.provider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast), transform var(--transition-smooth);
+  cursor: pointer;
+}
+
+.provider:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-active);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.providerLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.providerLogoFallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--blue-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--blue-bright);
+  flex-shrink: 0;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.providerName {
+  white-space: nowrap;
+}
+
+/* ── Attribution note ───────────────────────────────────────── */
+.attribution {
+  margin-top: var(--space-4);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.attributionLink {
+  color: var(--blue-bright);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.attributionLink:hover {
+  color: var(--text-primary);
+}
