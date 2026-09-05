@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import TopBar from "@/app/components/TopBar";
 import MovieCard from "@/app/components/MovieCard";
-import styles from "../[category]/browse.module.css";
-
+import styles from "../../[category]/browse.module.css";
 const GENRE_NAMES = {
   28: "Action", 12: "Adventure", 16: "Animation", 35: "Comedy",
   80: "Crime", 18: "Drama", 27: "Horror", 878: "Sci-Fi",
