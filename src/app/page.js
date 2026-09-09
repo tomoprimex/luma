@@ -1,32 +1,14 @@
 import TopBar from "./components/TopBar";
 import FeaturedMovie from "./components/FeaturedMovie";
 import MovieRow from "./components/MovieRow";
+import { getTrendingMovies, getPopularMovies, getTopRatedMovies } from "@/lib/tmdb";
 import styles from "./page.module.css";
-
-async function fetchFromAPI(endpoint) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}${endpoint}`, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-    
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    return data.movies || [];
-  } catch (error) {
-    console.error(`Error fetching from ${endpoint}:`, error);
-    return [];
-  }
-}
 
 export default async function Home() {
   const [trending, popular, topRated] = await Promise.all([
-    fetchFromAPI('/api/movies/trending'),
-    fetchFromAPI('/api/movies/popular'),
-    fetchFromAPI('/api/movies/top-rated'),
+    getTrendingMovies("day"),
+    getPopularMovies(1),
+    getTopRatedMovies(1),
   ]);
 
   // Check if all arrays are empty (likely API key not configured)

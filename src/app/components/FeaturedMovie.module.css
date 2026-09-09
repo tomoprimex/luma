@@ -2,10 +2,17 @@
 .featured {
   position: relative;
   width: 100%;
-  height: clamp(260px, 36vw, 420px);
+  height: clamp(180px, 50vw, 280px);
   overflow: hidden;
   background: var(--bg-surface);
   flex-shrink: 0;
+}
+
+/* Desktop: larger featured height */
+@media (min-width: 768px) {
+  .featured {
+    height: clamp(260px, 36vw, 420px);
+  }
 }
 
 .backdrop {
@@ -56,8 +63,16 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: var(--space-8) var(--space-8) var(--space-8);
-  max-width: 560px;
+  padding: var(--space-5) var(--space-4);
+  max-width: 100%;
+}
+
+/* Desktop: larger padding and constrained width */
+@media (min-width: 768px) {
+  .content {
+    padding: var(--space-8);
+    max-width: 560px;
+  }
 }
 
 /* Genre tags */
@@ -116,14 +131,21 @@
 
 /* Overview */
 .overview {
+  display: none;
   font-size: 0.85rem;
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: var(--space-5);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+}
+
+/* Desktop: show overview with clamp */
+@media (min-width: 768px) {
+  .overview {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 /* Buttons */
@@ -137,7 +159,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 9px 22px;
+  padding: 10px 20px;
   background: var(--gold);
   color: #000;
   font-size: 0.82rem;
@@ -152,16 +174,14 @@
   transform: translateY(-1px);
 }
 
-/* ── Mobile ─────────────────────────────────────────────────── */
+/* Mobile: full-width action button */
 @media (max-width: 767px) {
-  .featured {
-    height: clamp(220px, 55vw, 300px);
+  .btnPrimary {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 0.9rem;
   }
-  .content {
-    padding: var(--space-5) var(--space-4) var(--space-5);
-    max-width: 100%;
-  }
-  .overview { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -5,9 +5,13 @@
   left: 0;
   right: 0;
   z-index: 100;
-  height: var(--navbar-height);
+  height: var(--topbar-height);
   transition: background var(--transition-base), backdrop-filter var(--transition-base),
     box-shadow var(--transition-base);
+  background: var(--bg-secondary);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .navbar.scrolled {
@@ -21,7 +25,16 @@
   display: flex;
   align-items: center;
   height: 100%;
-  gap: var(--space-8);
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
+}
+
+/* Desktop: adjust spacing */
+@media (min-width: 768px) {
+  .inner {
+    gap: var(--space-8);
+    padding: 0 var(--space-6);
+  }
 }
 
 /* ── Logo ───────────────────────────────────────────────────── */
@@ -37,8 +50,8 @@
   font-size: 1.6rem;
   font-weight: 900;
   letter-spacing: -0.05em;
-  color: var(--blue-electric);
-  text-shadow: 0 0 20px var(--blue-glow-strong);
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold-glow-strong);
   line-height: 1;
 }
 
@@ -52,19 +65,34 @@
 
 /* ── Desktop nav ────────────────────────────────────────────── */
 .desktopNav {
-  display: flex;
+  display: none;
   align-items: center;
   gap: var(--space-2);
   margin-left: var(--space-4);
 }
 
+/* Desktop: show desktop nav */
+@media (min-width: 768px) {
+  .desktopNav {
+    display: flex;
+  }
+}
+
 .navLink {
-  padding: var(--space-2) var(--space-4);
-  font-size: 0.9rem;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-secondary);
   border-radius: var(--radius-sm);
   transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+/* Desktop: adjust nav link */
+@media (min-width: 768px) {
+  .navLink {
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.9rem;
+  }
 }
 
 .navLink:hover {
@@ -82,27 +110,49 @@
 
 /* Search */
 .searchWrapper {
-  display: flex;
+  display: none;
   align-items: center;
   gap: var(--space-2);
   border-radius: var(--radius-md);
   transition: background var(--transition-base);
 }
 
+/* Desktop: show search */
+@media (min-width: 768px) {
+  .searchWrapper {
+    display: flex;
+  }
+}
+
 .searchWrapper.searchActive {
   background: var(--bg-elevated);
   border: 1px solid var(--border-card);
-  padding-left: var(--space-3);
+  padding-left: var(--space-2);
+}
+
+/* Desktop: adjust search active padding */
+@media (min-width: 768px) {
+  .searchWrapper.searchActive {
+    padding-left: var(--space-3);
+  }
 }
 
 .searchInput {
-  width: 220px;
+  width: 180px;
   background: transparent;
   border: none;
   outline: none;
   color: var(--text-primary);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-family: var(--font-sans);
+}
+
+/* Desktop: wider search */
+@media (min-width: 768px) {
+  .searchInput {
+    width: 220px;
+    font-size: 0.875rem;
+  }
 }
 
 .searchInput::placeholder {
@@ -125,31 +175,148 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Sign in */
-.signInBtn {
-  padding: var(--space-2) var(--space-5);
-  font-size: 0.875rem;
+/* ── Account ─────────────────────────────────────────────────── */
+.accountWrap {
+  position: relative;
+}
+
+.accountBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-1);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.accountBtn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-card);
+}
+
+.accountAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gold-surface);
+  border: 1.5px solid var(--border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.accountName {
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
-  background: var(--blue-primary);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .accountName {
+    display: none;
+  }
+}
+
+.accountDropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 200px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2) 0;
+  box-shadow: var(--shadow-card);
+  z-index: 110;
+  animation: fadeIn 0.15s ease;
+}
+
+.accountLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 9px var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-sans);
+  text-align: left;
+}
+
+.accountLink:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accountDivider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-2) 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  transition: transform var(--transition-fast);
+}
+
+.signInBtn {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #000;
+  background: var(--gold);
   border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
   transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  font-family: var(--font-sans);
+  text-decoration: none;
 }
 
 .signInBtn:hover {
-  background: var(--blue-electric);
-  box-shadow: 0 0 16px var(--blue-glow-strong);
+  background: var(--gold-bright);
+  box-shadow: 0 0 16px var(--gold-glow-strong);
+}
+
+@media (min-width: 768px) {
+  .signInBtn {
+    display: inline-flex;
+  }
 }
 
 /* ── Hamburger ──────────────────────────────────────────────── */
+/* Mobile-first: hamburger shown by default */
 .hamburger {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
   width: 36px;
   height: 36px;
   padding: 4px;
+  cursor: pointer;
 }
 
 .bar {
@@ -166,14 +333,33 @@
 .barOpen2 { opacity: 0; transform: scaleX(0); }
 .barOpen3 { transform: translateY(-7px) rotate(-45deg); }
 
+/* Desktop: hide hamburger */
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+}
+
 /* ── Mobile menu ────────────────────────────────────────────── */
 .mobileMenu {
-  display: flex;
+  display: none;
   flex-direction: column;
   background: var(--bg-surface);
   border-top: 1px solid var(--border-subtle);
-  padding: var(--space-4) var(--content-px) var(--space-6);
+  padding: var(--space-4) var(--space-4) var(--space-6);
   gap: var(--space-1);
+}
+
+/* Desktop: hide mobile menu */
+@media (min-width: 768px) {
+  .mobileMenu {
+    display: none !important;
+  }
+}
+
+/* Mobile: show mobile menu when open */
+.mobileMenuOpen {
+  display: flex;
 }
 
 .mobileLink {
@@ -183,6 +369,7 @@
   color: var(--text-secondary);
   border-radius: var(--radius-sm);
   transition: color var(--transition-fast), background var(--transition-fast);
+  text-decoration: none;
 }
 
 .mobileLink:hover {
@@ -195,23 +382,31 @@
   width: 100%;
   text-align: center;
   padding: var(--space-3) var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #000;
+  background: var(--gold);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-family: var(--font-sans);
 }
 
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 767px) {
-  .desktopNav,
-  .searchWrapper,
-  .signInBtn:not(.mobileSignIn) {
-    display: none;
-  }
-
-  .hamburger {
-    display: flex;
-  }
-}
-
-@media (min-width: 768px) {
-  .mobileMenu {
-    display: none;
-  }
+.mobileSignOut {
+  margin-top: var(--space-4);
+  width: 100%;
+  text-align: center;
+  padding: var(--space-3) var(--space-5);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-family: var(--font-sans);
 }

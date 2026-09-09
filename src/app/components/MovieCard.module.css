@@ -1,4 +1,11 @@
 /* ── MovieCard ───────────────────────────────────────────────── */
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -7,13 +14,22 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  position: relative;
 }
 
-/* Size variants */
-.sm  { width: 110px; }
-.md  { width: 140px; }
-.lg  { width: 170px; }
+/* Size variants - mobile-first */
+.sm  { width: 100px; }
+.md  { width: 120px; }
+.lg  { width: 145px; }
 
+/* Tablet: medium card sizes */
+@media (min-width: 768px) {
+  .sm  { width: 110px; }
+  .md  { width: 140px; }
+  .lg  { width: 170px; }
+}
+
+/* Desktop: larger card sizes */
 @media (min-width: 1280px) {
   .sm  { width: 120px; }
   .md  { width: 150px; }
@@ -63,21 +79,30 @@
 .overlay {
   position: absolute;
   inset: 0;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity var(--transition-base);
 }
 
-.card:hover .overlay { opacity: 1; }
+/* Desktop: show hover overlay */
+@media (min-width: 768px) {
+  .overlay {
+    display: flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .card:hover .overlay { opacity: 1; }
+}
 
 .playBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: var(--gold);
   color: #000;
@@ -85,23 +110,43 @@
   transition: transform var(--transition-base);
 }
 
-.card:hover .playBtn { transform: scale(1); }
+/* Desktop: larger play button */
+@media (min-width: 768px) {
+  .playBtn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card:hover .playBtn { transform: scale(1); }
+}
 
 /* ── Rating badge ───────────────────────────────────────────── */
 .ratingBadge {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 4px;
+  right: 4px;
   display: flex;
   align-items: center;
   gap: 3px;
-  padding: 2px 6px;
+  padding: 2px 5px;
   background: rgba(5, 5, 5, 0.88);
   border-radius: var(--radius-xs);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 700;
   color: var(--gold);
   border: 1px solid rgba(212,175,55,0.2);
+}
+
+/* Desktop: larger rating badge */
+@media (min-width: 768px) {
+  .ratingBadge {
+    top: 6px;
+    right: 6px;
+    padding: 2px 6px;
+    font-size: 0.68rem;
+  }
 }
 
 /* ── Info ───────────────────────────────────────────────────── */
@@ -113,7 +158,7 @@
 }
 
 .title {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
@@ -124,14 +169,28 @@
   transition: color var(--transition-fast);
 }
 
+/* Desktop: larger title font */
+@media (min-width: 768px) {
+  .title {
+    font-size: 0.8rem;
+  }
+}
+
 .card:hover .title { color: var(--gold-bright); }
 
 .meta {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
+}
+
+/* Desktop: larger meta font */
+@media (min-width: 768px) {
+  .meta {
+    font-size: 0.72rem;
+  }
 }
 
 .dot { opacity: 0.4; }
@@ -163,6 +222,69 @@
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+/* ── Favorite button ─────────────────────────────────────────── */
+.favoriteBtn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 5, 0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-card);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 2;
+  padding: 0;
+}
+
+.favoriteBtn:hover {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(5, 5, 5, 0.9);
+}
+
+.favoriteBtnActive {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.favoriteBadge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(239, 68, 68, 0.9);
+  border-radius: 50%;
+  color: #fff;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .favoriteBtn {
+    top: 8px;
+    left: 8px;
+    width: 30px;
+    height: 30px;
+  }
+  .favoriteBadge {
+    top: 8px;
+    left: 8px;
+    width: 22px;
+    height: 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

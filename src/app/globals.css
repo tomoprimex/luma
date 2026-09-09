@@ -27,6 +27,9 @@
   --text-primary:   #ffffff;
   --text-secondary: #a0a0a0;
   --text-muted:     #555555;
+  --text-tertiary:  #777777;
+  --text-sm:        0.875rem;
+  --text-xl:        1.125rem;
 
   /* Borders */
   --border-subtle:  rgba(255, 255, 255, 0.06);
@@ -57,6 +60,7 @@
   /* Shadows */
   --shadow-card:  0 2px 16px rgba(0, 0, 0, 0.6);
   --shadow-gold:  0 0 20px rgba(212, 175, 55, 0.2);
+  --shadow-glow:  0 0 20px rgba(212, 175, 55, 0.2);
   --shadow-hero:  0 8px 40px rgba(0, 0, 0, 0.9);
 
   /* Transitions */
@@ -136,9 +140,10 @@ p { color: var(--text-secondary); line-height: 1.7; }
 }
 
 /* ── App shell ──────────────────────────────────────────────── */
-/* Desktop: sidebar left, main right */
+/* Mobile-first: stack vertically by default */
 .app-shell {
   display: flex;
+  flex-direction: column;
   min-height: 100svh;
 }
 
@@ -147,11 +152,17 @@ p { color: var(--text-secondary); line-height: 1.7; }
   min-width: 0;
   display: flex;
   flex-direction: column;
+  padding-top: var(--topbar-height);
 }
 
-/* On desktop, offset for fixed sidebar */
+/* Desktop: sidebar left, main right with offset */
 @media (min-width: 1024px) {
+  .app-shell {
+    flex-direction: row;
+  }
+  
   .app-main {
     margin-left: var(--sidebar-width);
+    padding-top: 0;
   }
 }

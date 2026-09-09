@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { AuthProvider } from "./components/AuthProvider";
 import Sidebar from "./components/Sidebar";
 import "./globals.css";
 
@@ -33,14 +34,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html
+      lang="en"
+      className={inter.variable}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
       <body>
-        <div className="app-shell">
-          <Sidebar />
-          <div className="app-main">
-            {children}
+        <AuthProvider>
+          <div className="app-shell">
+            <Sidebar />
+            <div className="app-main">
+              {children}
+            </div>
           </div>
-        </div>
+        </AuthProvider>
       </body>
     </html>
   );

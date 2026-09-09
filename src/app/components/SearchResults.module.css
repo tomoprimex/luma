@@ -1,10 +1,12 @@
 /* ── Search dropdown ────────────────────────────────────────── */
+/* Mobile-first: full width dropdown */
 .dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
+  position: fixed;
+  top: calc(var(--topbar-height) * 2);
+  left: 0;
   right: 0;
-  width: 380px;
-  max-height: 480px;
+  width: 100%;
+  max-height: 50vh;
   overflow-y: auto;
   background: var(--bg-elevated);
   border: 1px solid var(--border-card);
@@ -13,12 +15,12 @@
   z-index: 200;
   animation: dropIn 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   scrollbar-width: thin;
-  scrollbar-color: var(--blue-primary) transparent;
+  scrollbar-color: var(--gold) transparent;
 }
 
 .dropdown::-webkit-scrollbar { width: 4px; }
 .dropdown::-webkit-scrollbar-track { background: transparent; }
-.dropdown::-webkit-scrollbar-thumb { background: var(--blue-primary); border-radius: 2px; }
+.dropdown::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
 
 @keyframes dropIn {
   from { opacity: 0; transform: translateY(-8px); }
@@ -27,6 +29,17 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dropdown { animation: none; }
+}
+
+/* Desktop: narrower dropdown */
+@media (min-width: 768px) {
+  .dropdown {
+    position: absolute;
+    right: 0;
+    top: auto;
+    width: 380px;
+    max-height: 480px;
+  }
 }
 
 /* ── States ─────────────────────────────────────────────────── */
@@ -44,7 +57,7 @@
   width: 16px;
   height: 16px;
   border: 2px solid var(--border-card);
-  border-top-color: var(--blue-electric);
+  border-top-color: var(--gold);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -105,7 +118,7 @@
 }
 
 .resultItem:focus-visible {
-  outline: 2px solid var(--blue-electric);
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
@@ -185,10 +198,10 @@
   width: 100%;
   justify-content: center;
   padding: var(--space-3) var(--space-4);
-  background: rgba(33, 150, 243, 0.08);
-  border: 1px solid var(--border-card);
+  background: var(--gold-surface);
+  border: 1px solid var(--border-gold);
   border-radius: var(--radius-md);
-  color: var(--blue-bright);
+  color: var(--gold);
   font-size: 0.82rem;
   font-weight: 600;
   font-family: var(--font-sans);
@@ -197,8 +210,8 @@
 }
 
 .loadMoreBtn:hover:not(:disabled) {
-  background: rgba(33, 150, 243, 0.15);
-  border-color: var(--border-active);
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--border-gold);
 }
 
 .loadMoreBtn:disabled {
@@ -210,7 +223,7 @@
   width: 12px;
   height: 12px;
   border: 2px solid var(--border-card);
-  border-top-color: var(--blue-electric);
+  border-top-color: var(--gold);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import TopBar from "@/app/components/TopBar";
-import MovieCard from "@/app/components/MovieCard";
+import BrowseGrid from "@/app/components/BrowseGrid";
 import { getTrendingMovies, getPopularMovies, getTopRatedMovies } from "@/lib/tmdb";
 import styles from "./browse.module.css";
 
@@ -28,20 +28,7 @@ export default async function BrowsePage({ params }) {
     <>
       <TopBar title={cat.label} />
       <main className={styles.main}>
-        <div className={styles.grid}>
-          {movies.map((movie) => (
-            <MovieCard
-              key={movie.id}
-              id={movie.id}
-              title={movie.title}
-              year={movie.year}
-              rating={movie.rating}
-              genre={movie.genre}
-              posterUrl={movie.posterUrl}
-              size="md"
-            />
-          ))}
-        </div>
+        <BrowseGrid movies={movies} />
       </main>
     </>
   );

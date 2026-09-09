@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import TrailerModal from "./TrailerModal";
+import styles from "./TrailerButton.module.css";
 
 /**
  * TrailerButton — self-contained client component.
@@ -18,32 +19,8 @@ export default function TrailerButton({ trailerKey, movieTitle }) {
     <>
       <button
         onClick={() => setOpen(true)}
+        className={styles.btn}
         aria-label={`Watch ${movieTitle} trailer`}
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "8px",
-          padding: "12px 24px",
-          background: "var(--blue-electric)",
-          color: "#fff",
-          fontSize: "0.9rem",
-          fontWeight: 700,
-          borderRadius: "10px",
-          border: "none",
-          fontFamily: "var(--font-sans)",
-          cursor: "pointer",
-          transition: "background 150ms ease, box-shadow 150ms ease, transform 150ms ease",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = "var(--blue-bright)";
-          e.currentTarget.style.boxShadow = "0 0 24px rgba(33,150,243,0.35)";
-          e.currentTarget.style.transform = "translateY(-1px)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = "var(--blue-electric)";
-          e.currentTarget.style.boxShadow = "none";
-          e.currentTarget.style.transform = "translateY(0)";
-        }}
       >
         <PlayIcon />
         Watch Trailer

@@ -1,0 +1,37 @@
+/* ── TrailerButton ──────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px 20px;
+  background: var(--gold);
+  color: #000;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: var(--gold-bright);
+  box-shadow: 0 0 20px var(--gold-glow-strong);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Mobile: larger touch target */
+@media (max-width: 767px) {
+  .btn {
+    padding: 12px 22px;
+    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+}

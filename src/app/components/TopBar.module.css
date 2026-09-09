@@ -1,54 +1,89 @@
 /* ── TopBar ──────────────────────────────────────────────────── */
+/* Mobile-first: topbar positioned below mobile header */
 .topbar {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
   height: var(--topbar-height);
-  padding: 0 var(--space-6);
+  padding: 0 var(--space-4);
   background: var(--bg-base);
   border-bottom: 1px solid var(--border-subtle);
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: var(--topbar-height);
+  left: 0;
+  right: 0;
   z-index: 40;
 }
 
-@media (max-width: 1023px) {
+/* Desktop: topbar without top offset */
+@media (min-width: 1024px) {
   .topbar {
-    top: var(--topbar-height);
+    position: sticky;
+    top: 0;
+    padding: 0 var(--space-6);
+    gap: var(--space-4);
   }
 }
 
 .pageTitle {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
   white-space: nowrap;
-  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Desktop: larger page title */
+@media (min-width: 768px) {
+  .pageTitle {
+    font-size: 1rem;
+    flex-shrink: 0;
+    min-width: auto;
+    max-width: none;
+  }
 }
 
 /* ── Search ─────────────────────────────────────────────────── */
 .searchArea {
   position: relative;
   margin-left: auto;
-  width: 260px;
+  width: 100%;
+  max-width: 160px;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
-@media (max-width: 480px) {
-  .searchArea { width: 100%; }
+/* Desktop: wider search */
+@media (min-width: 768px) {
+  .searchArea {
+    max-width: 260px;
+  }
 }
 
 .searchBar {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0 var(--space-3);
-  height: 34px;
+  padding: 0 var(--space-2);
+  height: 32px;
   background: var(--bg-surface);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   color: var(--text-muted);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Desktop: larger search bar */
+@media (min-width: 768px) {
+  .searchBar {
+    padding: 0 var(--space-3);
+    height: 34px;
+  }
 }
 
 .searchBar:focus-within,
@@ -62,10 +97,17 @@
   background: transparent;
   border: none;
   outline: none;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-family: var(--font-sans);
   color: var(--text-primary);
   min-width: 0;
+}
+
+/* Desktop: larger search input */
+@media (min-width: 768px) {
+  .searchInput {
+    font-size: 0.82rem;
+  }
 }
 
 .searchInput::placeholder { color: var(--text-muted); }

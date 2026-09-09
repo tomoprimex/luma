@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import TopBar from "@/app/components/TopBar";
-import MovieCard from "@/app/components/MovieCard";
+import BrowseGrid from "@/app/components/BrowseGrid";
 import styles from "../../[category]/browse.module.css";
 const GENRE_NAMES = {
   28: "Action", 12: "Adventure", 16: "Animation", 35: "Comedy",
@@ -53,19 +53,7 @@ export default async function GenrePage({ params }) {
     <>
       <TopBar title={genreName} />
       <main className={styles.main}>
-        <div className={styles.grid}>
-          {movies.map((movie) => (
-            <MovieCard
-              key={movie.id}
-              id={movie.id}
-              title={movie.title}
-              year={movie.year}
-              rating={movie.rating}
-              posterUrl={movie.posterUrl}
-              size="md"
-            />
-          ))}
-        </div>
+        <BrowseGrid movies={movies} />
       </main>
     </>
   );

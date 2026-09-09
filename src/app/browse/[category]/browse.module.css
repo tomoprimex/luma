@@ -5,8 +5,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: var(--space-4) var(--space-3);
+}
+
+@media (min-width: 400px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
 }
 
 @media (min-width: 640px) {
@@ -19,4 +23,40 @@
 /* Mobile: account for mobile bar */
 @media (max-width: 1023px) {
   .main { padding-top: calc(var(--topbar-height) + var(--space-4)); }
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-5);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: var(--space-4);
+  opacity: 0.6;
+}
+
+.emptyTitle {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+}
+
+.emptyText {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.itemCount {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  margin-top: var(--space-6);
 }

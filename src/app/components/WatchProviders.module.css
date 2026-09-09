@@ -1,15 +1,30 @@
 /* ── Watch Providers section ────────────────────────────────── */
 .section {
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
+}
+
+/* Desktop: larger section spacing */
+@media (min-width: 768px) {
+  .section {
+    margin-bottom: var(--space-8);
+  }
 }
 
 .sectionLabel {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+/* Desktop: larger label */
+@media (min-width: 768px) {
+  .sectionLabel {
+    font-size: 0.75rem;
+    margin-bottom: var(--space-5);
+  }
 }
 
 .empty {
@@ -36,7 +51,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--blue-bright);
+  color: var(--gold);
 }
 
 .providerList {
@@ -50,17 +65,25 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2);
   background: var(--bg-elevated);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   text-decoration: none;
   color: var(--text-secondary);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 500;
   transition: background var(--transition-fast), border-color var(--transition-fast),
     color var(--transition-fast), transform var(--transition-smooth);
   cursor: pointer;
+}
+
+/* Desktop: larger provider chip */
+@media (min-width: 768px) {
+  .provider {
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.82rem;
+  }
 }
 
 .provider:hover {
@@ -71,27 +94,44 @@
 }
 
 .providerLogo {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 6px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
+/* Desktop: larger provider logo */
+@media (min-width: 768px) {
+  .providerLogo {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 .providerLogoFallback {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 6px;
-  background: var(--blue-deep);
+  background: var(--bg-surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  color: var(--blue-bright);
+  color: var(--gold);
   flex-shrink: 0;
   text-align: center;
   line-height: 1.2;
+}
+
+/* Desktop: larger fallback */
+@media (min-width: 768px) {
+  .providerLogoFallback {
+    width: 28px;
+    height: 28px;
+    font-size: 0.65rem;
+  }
 }
 
 .providerName {
@@ -106,7 +146,7 @@
 }
 
 .attributionLink {
-  color: var(--blue-bright);
+  color: var(--gold);
   text-decoration: none;
   transition: color var(--transition-fast);
 }

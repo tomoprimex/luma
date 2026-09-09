@@ -1,5 +1,7 @@
 /* ── Desktop fixed sidebar ──────────────────────────────────── */
+/* Mobile-first: sidebar hidden by default */
 .sidebar {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -7,7 +9,6 @@
   height: 100svh;
   background: var(--bg-secondary);
   border-right: 1px solid var(--border-subtle);
-  display: flex;
   flex-direction: column;
   z-index: 50;
   overflow-y: auto;
@@ -17,9 +18,11 @@
 
 .sidebar::-webkit-scrollbar { display: none; }
 
-/* Hide desktop sidebar on mobile */
-@media (max-width: 1023px) {
-  .sidebar { display: none; }
+/* Desktop: show sidebar */
+@media (min-width: 1024px) {
+  .sidebar {
+    display: flex;
+  }
 }
 
 /* ── Sidebar inner ──────────────────────────────────────────── */
@@ -160,8 +163,9 @@
 }
 
 /* ── Mobile top bar ─────────────────────────────────────────── */
+/* Mobile-first: mobile bar shown by default */
 .mobileBar {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -175,8 +179,11 @@
   z-index: 80;
 }
 
-@media (max-width: 1023px) {
-  .mobileBar { display: flex; }
+/* Desktop: hide mobile bar */
+@media (min-width: 1024px) {
+  .mobileBar {
+    display: none;
+  }
 }
 
 .hamburger {
@@ -255,4 +262,151 @@
 
 @media (prefers-reduced-motion: reduce) {
   .backdrop, .drawer { animation: none; }
+}
+
+/* ── Auth section ───────────────────────────────────────────── */
+.authSection {
+  margin-top: auto;
+  padding: var(--space-4) 0 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Sign In button (logged out) */
+.signInBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px var(--space-5);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.signInBtn:hover {
+  color: var(--gold-bright);
+  background: var(--gold-surface);
+}
+
+.signInBtnActive {
+  background: var(--gold-surface);
+}
+
+/* User section (logged in) */
+.userSection {
+  position: relative;
+  padding: 0 var(--space-3);
+}
+
+.userBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-md);
+  text-align: left;
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+
+.userBtn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gold-surface);
+  border: 1.5px solid var(--border-gold);
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarInitial {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.userInfo {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.userName {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Profile dropdown */
+.profileDropdown {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  left: var(--space-3);
+  right: var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2) 0;
+  z-index: 100;
+  box-shadow: var(--shadow-card);
+  animation: fadeIn 0.15s ease;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 9px var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdownItem:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-2) 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  transition: transform var(--transition-fast);
 }

@@ -1,0 +1,115 @@
+/* ── Watchlist page ──────────────────────────────────────── */
+.main {
+  padding: var(--space-6) var(--space-5) var(--space-16);
+}
+
+/* Mobile: account for mobile bar */
+@media (max-width: 1023px) {
+  .main { padding-top: calc(var(--topbar-height) + var(--space-4)); }
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: var(--space-4) var(--space-3);
+}
+
+@media (min-width: 400px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+}
+
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-5);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: var(--space-4);
+  opacity: 0.6;
+}
+
+.emptyTitle {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+}
+
+.emptyText {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 360px;
+}
+
+.emptyCta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: 10px 20px;
+  background: var(--gold);
+  color: #000;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.emptyCta:hover {
+  background: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+.cardWrap {
+  position: relative;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-card);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 2;
+  padding: 0;
+}
+
+.removeBtn:hover {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.itemCount {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  margin-top: var(--space-6);
+}
