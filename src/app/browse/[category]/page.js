@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import TopBar from "@/app/components/TopBar";
 import BrowseGrid from "@/app/components/BrowseGrid";
 import { getTrendingMovies, getPopularMovies, getTopRatedMovies } from "@/lib/tmdb";
 import styles from "./browse.module.css";
@@ -26,8 +25,10 @@ export default async function BrowsePage({ params }) {
 
   return (
     <>
-      <TopBar title={cat.label} />
       <main className={styles.main}>
+        <div className={styles.header}>
+          <h1 className={styles.headerTitle}>{cat.label}</h1>
+        </div>
         <BrowseGrid movies={movies} />
       </main>
     </>

@@ -230,10 +230,63 @@ export async function getSimilarMovies(movieId) {
 export async function searchMovies(query, page = 1) {
   const data = await fetchFromTMDB("/search/movie", { query, page });
   return {
-    movies: data.results.map(transformMovie),
+    results: data.results.map(transformMovie),
     page: data.page,
     total_pages: data.total_pages,
     total_results: data.total_results,
+  };
+}
+
+/**
+ * Search TV shows by query.
+ */
+export async function searchTV(query, page = 1) {
+  const data = await fetchFromTMDB("/search/tv", { query, page });
+  return {
+    results: data.results.map(transformTV),
+    page: data.page,
+    total_pages: data.total_pages,
+    total_results: data.total_results,
+  };
+}
+
+/**
+ * Multi-search across movies, TV shows, and people.
+ * People are filtered out on the client if not in scope.
+ */
+export async function searchMulti(query, page = 1) {
+  const data = await fetchFromTMDB("/search/multi", { query, page });
+  const movies = (data.results || [])
+    .filter((r) => r.media_type === "movie")
+    .map(transformMovie);
+  const tv = (data.results || [])
+    .filter((r) => r.media_type === "tv")
+    .map(transformTV);
+  return {
+    results: [...movies, ...tv],
+    page: data.page,
+    total_pages: data.total_pages,
+    total_results: data.total_results,
+  };
+}
+
+function transformTV(show) {
+  return {
+    id: show.id,
+    title: show.name || show.original_name,
+    year: show.first_air_date
+      ? new Date(show.first_air_date).getFullYear()
+      : null,
+    rating: show.vote_average ? show.vote_average.toFixed(1) : null,
+    genre: show.genre_ids?.[0] ? getGenreName(show.genre_ids[0]) : null,
+    posterUrl: show.poster_path
+      ? `${TMDB_IMAGE_BASE_URL}/w500${show.poster_path}`
+      : null,
+    backdropUrl: show.backdrop_path
+      ? `${TMDB_IMAGE_BASE_URL}/w1280${show.backdrop_path}`
+      : null,
+    overview: show.overview || null,
+    media_type: "tv",
   };
 }
 

@@ -11,20 +11,23 @@ export default function MovieCard({
   size = "md",
   onFavoriteToggle,
   isFavorite,
+  layout = "poster",
+  href,
 }) {
   const isEmpty = !title;
 
   if (isEmpty) {
     return (
       <div
-        className={`${styles.card} ${styles[size]} ${styles.skeleton}`}
+        className={`${styles.card} ${styles[size]} ${styles.skeleton} ${layout === "list" ? styles.listLayout : ""}`}
         aria-hidden="true"
       >
         <div className={styles.posterSkeleton} />
-        <div className={styles.infoSkeleton}>
+        {layout === "list" && <div className={styles.infoSkeletonList} />}
+        {layout === "poster" && <div className={styles.infoSkeleton}>
           <div className={styles.skeletonLine} style={{ width: "70%" }} />
           <div className={styles.skeletonLine} style={{ width: "40%" }} />
-        </div>
+        </div>}
       </div>
     );
   }
@@ -66,7 +69,7 @@ export default function MovieCard({
         )}
       </div>
 
-      <div className={styles.info}>
+      <div className={`${styles.info} ${layout === "list" ? styles.infoList : ""}`}>
         <h3 className={styles.title}>{title}</h3>
         <div className={styles.meta}>
           {year && <span className={styles.year}>{year}</span>}
@@ -80,7 +83,7 @@ export default function MovieCard({
   );
 
   const cardContent = (
-    <div className={`${styles.card} ${styles[size]}`}>
+    <div className={`${styles.card} ${styles[size]} ${layout === "list" ? styles.listLayout : ""}`}>
       {inner}
       {onFavoriteToggle && id && (
         <button
@@ -99,11 +102,13 @@ export default function MovieCard({
     </div>
   );
 
-  if (id) {
+  const cardLink = href || (id ? `/movie/${id}` : null);
+
+  if (cardLink) {
     return (
       <Link
-        href={`/movie/${id}`}
-        className={`${styles.cardLink} ${styles[size]}`}
+        href={cardLink}
+        className={`${styles.cardLink} ${styles[size]} ${layout === "list" ? styles.listLayout : ""}`}
         aria-label={`View details for ${title}`}
       >
         {cardContent}

@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import TopBar from "@/app/components/TopBar";
 import BrowseGrid from "@/app/components/BrowseGrid";
 import styles from "../../[category]/browse.module.css";
 const GENRE_NAMES = {
@@ -51,8 +50,10 @@ export default async function GenrePage({ params }) {
 
   return (
     <>
-      <TopBar title={genreName} />
       <main className={styles.main}>
+        <div className={styles.header}>
+          <h1 className={styles.headerTitle}>{genreName}</h1>
+        </div>
         <BrowseGrid movies={movies} />
       </main>
     </>

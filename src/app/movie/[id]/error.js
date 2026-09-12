@@ -16,7 +16,7 @@ export default function MovieError({ error, reset }) {
         alignItems: "center",
         justifyContent: "center",
         gap: "20px",
-        padding: "32px",
+        padding: "var(--space-6)",
         background: "var(--bg-base)",
         textAlign: "center",
       }}
@@ -50,24 +50,26 @@ export default function MovieError({ error, reset }) {
         Couldn&apos;t load this movie
       </h1>
 
-      <p style={{ color: "var(--text-secondary)", maxWidth: 400, lineHeight: 1.7 }}>
+      <p style={{ color: "var(--text-secondary)", maxWidth: 400, lineHeight: 1.7, fontSize: "0.9rem", margin: 0 }}>
         There was a problem fetching the movie data. This is usually a temporary
         network or API issue.
       </p>
 
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center", width: "100%", maxWidth: 420 }}>
         <button
           onClick={reset}
           style={{
             padding: "12px 28px",
-            background: "var(--blue-electric)",
-            color: "#fff",
+            background: "var(--gold)",
+            color: "#000",
             fontWeight: 700,
             fontSize: "0.9rem",
-            borderRadius: "10px",
+            borderRadius: "var(--radius-md)",
             border: "none",
             cursor: "pointer",
             fontFamily: "var(--font-sans)",
+            flex: 1,
+            minWidth: "120px",
           }}
         >
           Try again
@@ -80,9 +82,11 @@ export default function MovieError({ error, reset }) {
             color: "var(--text-muted)",
             fontWeight: 600,
             fontSize: "0.9rem",
-            borderRadius: "10px",
+            borderRadius: "var(--radius-md)",
             border: "1px solid var(--border-subtle)",
             textDecoration: "none",
+            flex: 1,
+            minWidth: "120px",
           }}
         >
           Go home

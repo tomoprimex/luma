@@ -1,11 +1,11 @@
 /* ── TopBar ──────────────────────────────────────────────────── */
-/* Mobile-first: topbar positioned below mobile header */
+/* Mobile-first: fixed below mobile bar */
 .topbar {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  height: var(--topbar-height);
-  padding: 0 var(--space-4);
+  height: var(--topbar-height-mobile);
+  padding: var(--space-2) var(--space-4);
   background: var(--bg-base);
   border-bottom: 1px solid var(--border-subtle);
   position: fixed;
@@ -15,53 +15,67 @@
   z-index: 40;
 }
 
-/* Desktop: topbar without top offset */
+@media (max-width: 1023px) {
+  .topbar {
+    padding-left: max(env(safe-area-inset-left, 0px), var(--space-4));
+    padding-right: max(env(safe-area-inset-right, 0px), var(--space-4));
+  }
+}
+
+/* Desktop: sticky at top of main content */
 @media (min-width: 1024px) {
   .topbar {
     position: sticky;
     top: 0;
+    height: var(--topbar-height-desktop);
     padding: 0 var(--space-6);
     gap: var(--space-4);
+    left: auto;
+    right: auto;
   }
 }
 
+/* ── Left: Page title ────────────────────────────────────────── */
+
+.left {
+  flex-shrink: 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
 .pageTitle {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-shrink: 1;
-  min-width: 0;
-  max-width: 100%;
+  max-width: 120px;
 }
 
-/* Desktop: larger page title */
 @media (min-width: 768px) {
   .pageTitle {
-    font-size: 1rem;
-    flex-shrink: 0;
-    min-width: auto;
-    max-width: none;
+    font-size: 0.85rem;
+    max-width: 160px;
   }
 }
 
-/* ── Search ─────────────────────────────────────────────────── */
+/* ── Center: Search ─────────────────────────────────────────── */
+
 .searchArea {
   position: relative;
-  margin-left: auto;
-  width: 100%;
-  max-width: 160px;
-  flex-shrink: 1;
+  flex: 1;
+  max-width: 420px;
   min-width: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Desktop: wider search */
-@media (min-width: 768px) {
+@media (max-width: 767px) {
   .searchArea {
-    max-width: 260px;
+    max-width: none;
   }
 }
 
@@ -78,7 +92,6 @@
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-/* Desktop: larger search bar */
 @media (min-width: 768px) {
   .searchBar {
     padding: 0 var(--space-3);
@@ -89,7 +102,6 @@
 .searchBar:focus-within,
 .searchBarActive {
   border-color: var(--gold-dim);
-  box-shadow: 0 0 0 3px var(--gold-glow);
 }
 
 .searchInput {
@@ -103,7 +115,10 @@
   min-width: 0;
 }
 
-/* Desktop: larger search input */
+.searchInput:focus-visible {
+  outline: none;
+}
+
 @media (min-width: 768px) {
   .searchInput {
     font-size: 0.82rem;
@@ -121,3 +136,162 @@
   flex-shrink: 0;
 }
 .clearBtn:hover { color: var(--text-secondary); }
+
+/* ── Right: Account ─────────────────────────────────────────── */
+
+.right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.accountSection {
+  position: relative;
+}
+
+.accountBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  font-family: var(--font-sans);
+  height: 32px;
+}
+
+.accountBtn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-card);
+}
+
+.accountAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--gold-surface);
+  border: 1.5px solid var(--border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.accountAvatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.accountAvatarInitial {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.accountName {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .accountName {
+    display: none;
+  }
+}
+
+.accountDropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 200px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2) 0;
+  box-shadow: var(--shadow-card);
+  z-index: 100;
+  animation: fadeIn 0.15s ease;
+}
+
+.accountDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 9px var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-sans);
+  text-align: left;
+}
+
+.accountDropdownItem:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accountDropdownDivider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-2) 0;
+}
+
+.signInBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #000;
+  background: var(--gold);
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  font-family: var(--font-sans);
+  text-decoration: none;
+  height: 32px;
+}
+
+.signInBtn:hover {
+  background: var(--gold-bright);
+  box-shadow: 0 0 16px var(--gold-glow-strong);
+}
+
+@media (max-width: 767px) {
+  .signInBtn {
+    padding: var(--space-2);
+    width: 32px;
+    justify-content: center;
+  }
+  .signInBtn span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accountDropdown { animation: none; }
+}

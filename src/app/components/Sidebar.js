@@ -8,12 +8,12 @@ import { logOut } from "@/lib/supabase";
 import styles from "./Sidebar.module.css";
 
 const NAV_ITEMS = [
-  { label: "Home",      href: "/",               icon: HomeIcon },
-  { label: "Movies",    href: "/browse/popular",  icon: FilmIcon },
-  { label: "Trending",  href: "/browse/trending", icon: TrendingIcon },
-  { label: "Top Rated", href: "/browse/top-rated", icon: StarNavIcon },
-  { label: "Watchlist", href: "/watchlist",       icon: BookmarkIcon },
-  { label: "Recently Viewed", href: "/recently-viewed", icon: ClockIcon },
+  { label: "Home",      href: "/",               icon: HomeIcon, key: "home" },
+  { label: "Movies",    href: "/browse/popular",  icon: FilmIcon, key: "movies" },
+  { label: "Trending",  href: "/browse/trending", icon: TrendingIcon, key: "trending" },
+  { label: "Top Rated", href: "/browse/top-rated", icon: StarNavIcon, key: "top-rated" },
+  { label: "Watchlist", href: "/watchlist",       icon: BookmarkIcon, key: "watchlist" },
+  { label: "Recently Viewed", href: "/recently-viewed", icon: ClockIcon, key: "recently-viewed" },
 ];
 
 const GENRES = [
@@ -37,13 +37,11 @@ export default function Sidebar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
 
-  // Close drawer/dropdown on route change
   useEffect(() => {
     setDrawerOpen(false);
     setProfileOpen(false);
   }, [pathname]);
 
-  // Close profile dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -54,7 +52,6 @@ export default function Sidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Lock body scroll when mobile drawer is open
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -76,6 +73,16 @@ export default function Sidebar() {
   const avatarInitial = (displayName || "U").charAt(0).toUpperCase();
   const avatarUrl = profile?.avatar_url || null;
 
+  const bottomNavItems = [
+    { label: "Home",      href: "/",              icon: HomeIcon },
+    { label: "Movies",    href: "/browse/popular", icon: FilmIcon },
+    { label: "Trending",  href: "/browse/trending", icon: TrendingIcon },
+    { label: "Watchlist", href: "/watchlist",      icon: BookmarkIcon },
+    ...(isAuthenticated
+      ? [{ label: "Profile", href: "/profile", icon: UserIcon }]
+      : [{ label: "Sign In", href: "/signin", icon: UserIcon }]),
+  ];
+
   const sidebarContent = (
     <div className={styles.inner}>
       {/* Logo */}
@@ -86,12 +93,11 @@ export default function Sidebar() {
 
       {/* Main nav */}
       <nav className={styles.nav} aria-label="Main navigation">
-        <span className={styles.navLabel}>Menu</span>
-        {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
+        {NAV_ITEMS.map(({ label, href, icon: Icon, key }) => {
           const active = pathname === href || (href !== "/" && pathname.startsWith(href));
           return (
             <Link
-              key={href}
+              key={key}
               href={href}
               className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}
               aria-current={active ? "page" : undefined}
@@ -108,7 +114,6 @@ export default function Sidebar() {
 
       {/* Genres */}
       <nav className={styles.genres} aria-label="Browse by genre">
-        <span className={styles.navLabel}>Genres</span>
         {GENRES.map((g) => (
           <Link
             key={g.id}
@@ -219,6 +224,24 @@ export default function Sidebar() {
           </aside>
         </>
       )}
+
+      {/* Mobile bottom navigation */}
+      <nav className={styles.bottomNav} aria-label="Bottom navigation">
+        {bottomNavItems.map((item) => {
+          const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`${styles.bottomNavItem} ${active ? styles.bottomNavItemActive : ""}`}
+              aria-current={active ? "page" : undefined}
+            >
+              <span className={styles.bottomNavIcon}><item.icon /></span>
+              <span className={styles.bottomNavLabel}>{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
     </>
   );
 }
@@ -230,6 +253,9 @@ function HomeIcon() {
 }
 function FilmIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" suppressHydrationWarning><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>;
+}
+function TvIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" suppressHydrationWarning><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>;
 }
 function TrendingIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" suppressHydrationWarning><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>;
@@ -253,7 +279,7 @@ function UserIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" suppressHydrationWarning><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
 }
 function SettingsIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" suppressHydrationWarning><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>;
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" suppressHydrationWarning><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 .6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>;
 }
 function SignOutIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" suppressHydrationWarning><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;

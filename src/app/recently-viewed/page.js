@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TopBar from "@/app/components/TopBar";
-import MovieCard from "@/app/components/MovieCard";
 import { useAuth } from "@/app/components/AuthProvider";
+import MovieCard from "@/app/components/MovieCard";
 import styles from "./recently-viewed.module.css";
 
 export default function RecentlyViewedPage() {
@@ -21,7 +20,6 @@ export default function RecentlyViewedPage() {
   if (loading) {
     return (
       <>
-        <TopBar title="Recently Viewed" />
         <main className={styles.main}>
           <div className={styles.grid}>
             {Array.from({ length: 8 }).map((_, i) => (
@@ -37,7 +35,6 @@ export default function RecentlyViewedPage() {
 
   return (
     <>
-      <TopBar title="Recently Viewed" />
       <main className={styles.main}>
         {items.length === 0 ? (
           <div className={styles.emptyState}>
@@ -63,6 +60,7 @@ export default function RecentlyViewedPage() {
                   year={item.viewed_at ? new Date(item.viewed_at).getFullYear() : null}
                   posterUrl={item.poster_path}
                   size="md"
+                  layout="list"
                 />
               ))}
             </div>

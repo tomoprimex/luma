@@ -10,7 +10,7 @@ export default function MovieNotFound() {
         alignItems: "center",
         justifyContent: "center",
         gap: "24px",
-        padding: "32px",
+        padding: "var(--space-6)",
         background: "var(--bg-base)",
         textAlign: "center",
       }}
@@ -31,6 +31,7 @@ export default function MovieNotFound() {
           fontWeight: 800,
           color: "var(--text-primary)",
           letterSpacing: "-0.02em",
+          margin: 0,
         }}
       >
         Movie not found
@@ -40,6 +41,8 @@ export default function MovieNotFound() {
           color: "var(--text-secondary)",
           maxWidth: 400,
           lineHeight: 1.7,
+          fontSize: "0.95rem",
+          margin: 0,
         }}
       >
         This movie doesn&apos;t exist in our database, or the ID is invalid.
@@ -49,11 +52,11 @@ export default function MovieNotFound() {
         style={{
           marginTop: "8px",
           padding: "12px 28px",
-          background: "var(--blue-electric)",
-          color: "#fff",
+          background: "var(--gold)",
+          color: "#000",
           fontWeight: 700,
           fontSize: "0.9rem",
-          borderRadius: "10px",
+          borderRadius: "var(--radius-md)",
           textDecoration: "none",
           transition: "background 150ms ease",
         }}

@@ -1,4 +1,3 @@
-import TopBar from "./components/TopBar";
 import FeaturedMovie from "./components/FeaturedMovie";
 import MovieRow from "./components/MovieRow";
 import { getTrendingMovies, getPopularMovies, getTopRatedMovies } from "@/lib/tmdb";
@@ -19,7 +18,6 @@ export default async function Home() {
 
   return (
     <>
-      <TopBar title="Discover" />
       <main className={styles.main}>
         {/* Error message if API key not configured */}
         {hasError && (

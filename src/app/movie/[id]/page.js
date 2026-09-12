@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import TopBar from "@/app/components/TopBar";
 import MovieDetailClient from "@/app/components/MovieDetailClient";
 import {
   getMovieDetails,
@@ -58,15 +57,12 @@ export default async function MovieDetailPage({ params }) {
   ]);
 
   return (
-    <>
-      <TopBar title={movie.title} />
-      <MovieDetailClient
-        movie={movie}
-        credits={credits}
-        trailerKey={trailerKey}
-        similar={similar}
-        watchProviders={watchProviders}
-      />
-    </>
+    <MovieDetailClient
+      movie={movie}
+      credits={credits}
+      trailerKey={trailerKey}
+      similar={similar}
+      watchProviders={watchProviders}
+    />
   );
 }

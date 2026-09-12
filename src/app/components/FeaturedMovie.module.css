@@ -2,7 +2,7 @@
 .featured {
   position: relative;
   width: 100%;
-  height: clamp(180px, 50vw, 280px);
+  height: clamp(220px, 60vw, 320px);
   overflow: hidden;
   background: var(--bg-surface);
   flex-shrink: 0;
@@ -11,7 +11,7 @@
 /* Desktop: larger featured height */
 @media (min-width: 768px) {
   .featured {
-    height: clamp(260px, 36vw, 420px);
+    height: clamp(280px, 38vw, 440px);
   }
 }
 
@@ -38,7 +38,7 @@
   background: linear-gradient(
     to right,
     rgba(5,5,5,0.92) 0%,
-    rgba(5,5,5,0.6) 40%,
+    rgba(5,5,5,0.65) 35%,
     transparent 70%
   );
 }
@@ -49,8 +49,8 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    transparent 40%,
-    rgba(5,5,5,0.7) 75%,
+    transparent 35%,
+    rgba(5,5,5,0.75) 70%,
     var(--bg-base) 100%
   );
 }
@@ -63,7 +63,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: var(--space-5) var(--space-4);
+  padding: var(--space-4) var(--space-4) var(--space-5);
   max-width: 100%;
 }
 
@@ -174,8 +174,29 @@
   transform: translateY(-1px);
 }
 
-/* Mobile: full-width action button */
+/* Mobile: featured banner refinements */
 @media (max-width: 767px) {
+  .meta {
+    gap: var(--space-2);
+  }
+
+  .rating {
+    font-size: 0.78rem;
+  }
+
+  .metaItem {
+    font-size: 0.75rem;
+  }
+
+  .genreTag {
+    font-size: 0.62rem;
+    padding: 2px 8px;
+  }
+
+  .title {
+    font-size: clamp(1.3rem, 4vw, 1.6rem);
+  }
+
   .btnPrimary {
     width: 100%;
     justify-content: center;

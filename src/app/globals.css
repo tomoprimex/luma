@@ -71,7 +71,12 @@
   /* Layout — sidebar */
   --sidebar-width:        220px;
   --sidebar-width-mobile: 260px;
+  --sidebar-width-drawer: 90vw;
   --topbar-height:        56px;
+  --topbar-height-desktop: 44px;
+  --topbar-height-mobile: 48px;
+  --bottom-nav-height:    60px;
+  --content-px:           16px;
 
   /* Font */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -132,6 +137,12 @@ p { color: var(--text-secondary); line-height: 1.7; }
 /* ── Selection ──────────────────────────────────────────────── */
 ::selection { background: rgba(212,175,55,0.2); color: var(--text-primary); }
 
+/* ── Global keyframes ──────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 /* ── Utility ────────────────────────────────────────────────── */
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0;
@@ -152,7 +163,8 @@ p { color: var(--text-secondary); line-height: 1.7; }
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding-top: var(--topbar-height);
+  padding-top: calc(var(--topbar-height) + var(--topbar-height-mobile));
+  padding-bottom: var(--bottom-nav-height);
 }
 
 /* Desktop: sidebar left, main right with offset */
@@ -164,5 +176,27 @@ p { color: var(--text-secondary); line-height: 1.7; }
   .app-main {
     margin-left: var(--sidebar-width);
     padding-top: 0;
+    padding-bottom: 0;
   }
+}
+
+/* ── Utilities ────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: var(--content-px);
+}
+
+/* Safe-area aware padding helpers (for fixed elements at screen edges) */
+.safe-top    { padding-top: max(env(safe-area-inset-top, 0px), var(--space-4)); }
+.safe-bottom { padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--space-4)); }
+.safe-left   { padding-left: max(env(safe-area-inset-left, 0px), var(--content-px)); }
+.safe-right  { padding-right: max(env(safe-area-inset-right, 0px), var(--content-px)); }
+.safe-all {
+  padding:
+    max(env(safe-area-inset-top, 0px), var(--space-4))
+    max(env(safe-area-inset-right, 0px), var(--content-px))
+    max(env(safe-area-inset-bottom, 0px), var(--space-4))
+    max(env(safe-area-inset-left, 0px), var(--content-px));
 }

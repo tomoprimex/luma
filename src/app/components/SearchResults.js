@@ -47,10 +47,10 @@ export default function SearchResults({ query, onClose }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.error && !data.movies?.length) {
+        if (data.error && !data.results?.length) {
           setError(data.error);
         } else {
-          setResults(data.movies || []);
+          setResults(data.results || []);
           setPage(data.page || 1);
           setTotalPages(data.total_pages || 1);
           setTotalResults(data.total_results || 0);
@@ -81,11 +81,12 @@ export default function SearchResults({ query, onClose }) {
         } else {
           setResults((prev) => {
             const existingIds = new Set(prev.map((m) => m.id));
-            const fresh = (data.movies || []).filter((m) => !existingIds.has(m.id));
+            const fresh = (data.results || []).filter((m) => !existingIds.has(m.id));
             return [...prev, ...fresh];
           });
           setPage(data.page || nextPage);
           setTotalPages(data.total_pages || totalPages);
+          setTotalResults(data.total_results || totalResults);
         }
         setLoadingMore(false);
       })
@@ -93,7 +94,7 @@ export default function SearchResults({ query, onClose }) {
         setMoreError("Failed to load more results.");
         setLoadingMore(false);
       });
-  }, [loadingMore, page, totalPages, query]);
+  }, [loadingMore, page, totalPages, query, totalResults, totalPages]);
 
   // Close on Escape
   useEffect(() => {

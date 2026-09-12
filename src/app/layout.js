@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { AuthProvider } from "./components/AuthProvider";
 import Sidebar from "./components/Sidebar";
+import TopBar from "./components/TopBar";
 import "./globals.css";
 
 const inter = Inter({
@@ -45,6 +46,7 @@ export default function RootLayout({ children }) {
           <div className="app-shell">
             <Sidebar />
             <div className="app-main">
+              <TopBar />
               {children}
             </div>
           </div>

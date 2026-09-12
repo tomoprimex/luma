@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/components/AuthProvider";
 import styles from "@/app/movie/[id]/movie.module.css";
 import TrailerButton from "./TrailerButton";
+import InlineTrailer from "./InlineTrailer";
 import WatchProviders from "./WatchProviders";
 import AuthModal from "./AuthModal";
 import {
@@ -79,6 +80,14 @@ function ExternalIcon() {
   );
 }
 
+function PlayIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+
 function Detail({ label, value }) {
   if (!value) return null;
   return (
@@ -100,7 +109,7 @@ export default function MovieDetailClient({
   const {
     user,
     isAuthenticated,
-    inWatchlist,
+    isInWatchlist,
     addToWatchlist,
     removeFromWatchlist,
     isFavorite,
@@ -116,8 +125,10 @@ export default function MovieDetailClient({
   const [userRating, setUserRating] = useState(null);
   const [ratingLoading, setRatingLoading] = useState(false);
   const [communityRating, setCommunityRating] = useState(null);
+  const [showTrailer, setShowTrailer] = useState(false);
+  const providersRef = useRef(null);
 
-  const inWatchlistLocal = isAuthenticated ? inWatchlist(movie.id) : false;
+  const inWatchlistLocal = isAuthenticated ? isInWatchlist(movie.id) : false;
   const isFavoriteLocal = isAuthenticated ? isFavorite(movie.id, "movie") : false;
 
   const runtimeFormatted = movie.runtime
@@ -232,6 +243,12 @@ export default function MovieDetailClient({
     }
   };
 
+  const scrollToProviders = () => {
+    if (providersRef.current) {
+      providersRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const handleFavoriteToggle = async () => {
     if (!isAuthenticated) {
       setAuthModalTab("signin");
@@ -312,8 +329,22 @@ export default function MovieDetailClient({
             </div>
 
             <div className={styles.actions}>
+              <button
+                className={styles.watchBtn}
+                onClick={scrollToProviders}
+              >
+                Watch
+              </button>
               {trailerKey && (
-                <TrailerButton trailerKey={trailerKey} movieTitle={movie.title} />
+                <button
+                  className={styles.trailerToggleBtn}
+                  onClick={() => setShowTrailer((v) => !v)}
+                  aria-expanded={showTrailer}
+                  aria-label={showTrailer ? "Hide trailer" : "Watch trailer"}
+                >
+                  <PlayIcon />
+                  {showTrailer ? "Hide Trailer" : "Watch Trailer"}
+                </button>
               )}
               <button
                 className={`${styles.watchlistBtn} ${inWatchlistLocal ? styles.active : ""}`}
@@ -332,6 +363,14 @@ export default function MovieDetailClient({
                 <HeartIcon filled={isFavoriteLocal} />
               </button>
             </div>
+
+            {showTrailer && trailerKey && (
+              <InlineTrailer
+                trailerKey={trailerKey}
+                movieTitle={movie.title}
+                onClose={() => setShowTrailer(false)}
+              />
+            )}
 
             <div className={styles.ratingSection}>
               <p className={styles.sectionLabel}>Your Rating</p>
@@ -388,7 +427,9 @@ export default function MovieDetailClient({
               </div>
             )}
 
-            <WatchProviders providers={watchProviders} movieTitle={movie.title} />
+            <div ref={providersRef}>
+              <WatchProviders providers={watchProviders} movieTitle={movie.title} />
+            </div>
 
             {movie.overview && (
               <div className={styles.overviewSection}>

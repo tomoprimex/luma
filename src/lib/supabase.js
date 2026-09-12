@@ -175,7 +175,7 @@ export async function ensureProfile(userId, displayName) {
 export async function ensureUserSettings(userId) {
   const existing = await getUserSettings(userId);
   if (existing) return existing;
-  const { error } = await supabase.from("user_settings").insert([{
+  const { error } = await supabase.from("user_settings").upsert([{
     user_id: userId,
     theme: "dark",
     autoplay: true,
@@ -189,7 +189,7 @@ export async function ensureUserSettings(userId) {
     email_notifications: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-  }]);
+  }], { onConflict: "user_id" });
   if (error) { console.error("ensureUserSettings:", error); return null; }
   return getUserSettings(userId);
 }
@@ -210,7 +210,7 @@ export async function getWatchlist(userId) {
     .from("watchlists")
     .select("*")
     .eq("user_id", userId)
-    .order("added_at", { ascending: false });
+    .order("created_at", { ascending: false });
   if (error) { console.error("getWatchlist:", error); return []; }
   return data.map((item) => ({
     id: item.tmdb_id ?? item.movie_id,
@@ -220,7 +220,7 @@ export async function getWatchlist(userId) {
     rating: item.rating,
     posterUrl: item.poster_url,
     media_type: item.media_type || "movie",
-    addedAt: item.added_at,
+    addedAt: item.created_at,
   }));
 }
 
@@ -233,7 +233,7 @@ export async function addToWatchlist(userId, movie) {
     rating: movie.rating,
     poster_url: movie.posterUrl,
     media_type: movie.media_type || "movie",
-    added_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
   }]);
   if (error) { console.error("addToWatchlist:", error); return { error: error.message }; }
   return { error: null };

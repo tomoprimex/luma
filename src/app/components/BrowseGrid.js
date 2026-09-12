@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/app/components/AuthProvider";
 import MovieCard from "@/app/components/MovieCard";
+import styles from "./BrowseGrid.module.css";
 
 export default function BrowseGrid({ movies = [] }) {
   const { isAuthenticated, isFavorite, addToFavorites, removeFromFavorites } = useAuth();
@@ -16,7 +17,7 @@ export default function BrowseGrid({ movies = [] }) {
   };
 
   return (
-    <>
+    <div className={styles.grid}>
       {movies.map((movie) => {
         const favorite = isAuthenticated && isFavorite(movie.id, "movie");
         return (
@@ -29,11 +30,12 @@ export default function BrowseGrid({ movies = [] }) {
             genre={movie.genre}
             posterUrl={movie.posterUrl}
             size="md"
+            layout="list"
             onFavoriteToggle={isAuthenticated ? handleFavoriteToggle : undefined}
             isFavorite={favorite}
           />
         );
       })}
-    </>
+    </div>
   );
 }

@@ -65,8 +65,8 @@
 
 .retryBtn {
   padding: var(--space-3) var(--space-6);
-  background: var(--blue-electric);
-  color: #fff;
+  background: var(--gold);
+  color: #000;
   font-size: 0.9rem;
   font-weight: 700;
   border-radius: var(--radius-md);
@@ -77,8 +77,8 @@
 }
 
 .retryBtn:hover {
-  background: var(--blue-bright);
-  box-shadow: 0 0 20px var(--blue-glow-strong);
+  background: var(--gold-bright);
+  box-shadow: 0 0 20px var(--gold-glow-strong);
 }
 
 .homeLink {

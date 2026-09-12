@@ -92,6 +92,13 @@
   gap: var(--space-4);
 }
 
+/* Mobile: tighter form spacing */
+@media (max-width: 480px) {
+  .form {
+    gap: var(--space-3);
+  }
+}
+
 .subtitle {
   font-size: 0.9rem;
   color: var(--text-secondary);

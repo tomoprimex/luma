@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TopBar from "@/app/components/TopBar";
-import MovieCard from "@/app/components/MovieCard";
 import { useAuth } from "@/app/components/AuthProvider";
+import MovieCard from "@/app/components/MovieCard";
 import styles from "./watchlist.module.css";
 
 const STORAGE_KEY = "luma_watchlist";
@@ -48,7 +47,6 @@ export default function WatchlistPage() {
   if (loading) {
     return (
       <>
-        <TopBar title="Watchlist" />
         <main className={styles.main}>
           <div className={styles.grid}>
             {Array.from({ length: 8 }).map((_, i) => (
@@ -62,7 +60,6 @@ export default function WatchlistPage() {
 
   return (
     <>
-      <TopBar title="Watchlist" />
       <main className={styles.main}>
         {movies.length === 0 ? (
           <div className={styles.emptyState}>
@@ -89,6 +86,7 @@ export default function WatchlistPage() {
                     rating={movie.rating}
                     posterUrl={movie.posterUrl}
                     size="md"
+                    layout="list"
                   />
                   <button
                     className={styles.removeBtn}
