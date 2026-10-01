@@ -1,15 +1,8 @@
-import { Inter } from "next/font/google";
 import { AuthProvider } from "./components/AuthProvider";
+import { ThemeProvider } from "./components/ThemeProvider";
 import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata = {
   title: {
@@ -37,19 +30,25 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={inter.variable}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => { try { var t = localStorage.getItem('luma-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();`,
+          }}
+        />
         <AuthProvider>
-          <div className="app-shell">
-            <Sidebar />
-            <div className="app-main">
-              <TopBar />
-              {children}
+          <ThemeProvider>
+            <div className="app-shell">
+              <Sidebar />
+              <div className="app-main">
+                <TopBar />
+                {children}
+              </div>
             </div>
-          </div>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

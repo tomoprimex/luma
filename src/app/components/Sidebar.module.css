@@ -140,6 +140,41 @@
   margin: var(--space-4) var(--space-5);
 }
 
+/* ── Theme toggle ───────────────────────────────────────────── */
+.themeToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 8px var(--space-5);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  text-align: left;
+}
+
+.themeToggle:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.themeIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--gold);
+}
+
+.themeLabel {
+  flex: 1;
+}
+
 /* ── Genres ─────────────────────────────────────────────────── */
 .genres {
   display: flex;

@@ -4,16 +4,21 @@ import { getTrendingMovies, getPopularMovies, getTopRatedMovies } from "@/lib/tm
 import styles from "./page.module.css";
 
 export default async function Home() {
-  const [trending, popular, topRated] = await Promise.all([
-    getTrendingMovies("day"),
-    getPopularMovies(1),
-    getTopRatedMovies(1),
-  ]);
+  let trending = [];
+  let popular = [];
+  let topRated = [];
 
-  // Check if all arrays are empty (likely API key not configured)
+  try {
+    [trending, popular, topRated] = await Promise.all([
+      getTrendingMovies("day"),
+      getPopularMovies(1),
+      getTopRatedMovies(1),
+    ]);
+  } catch {
+    // During build or offline, render empty sections rather than crashing.
+  }
+
   const hasError = trending.length === 0 && popular.length === 0 && topRated.length === 0;
-
-  // Use the top trending movie as the featured film
   const featured = trending[0] ?? null;
 
   return (

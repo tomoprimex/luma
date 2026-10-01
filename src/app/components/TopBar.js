@@ -8,36 +8,6 @@ import { logOut } from "@/lib/supabase";
 import SearchResults from "./SearchResults";
 import styles from "./TopBar.module.css";
 
-const PATH_TITLE_MAP = {
-  "/": "Discover",
-  "/browse/popular": "Movies",
-  "/browse/trending": "Trending",
-  "/browse/top-rated": "Top Rated",
-  "/watchlist": "Watchlist",
-  "/recently-viewed": "Recently Viewed",
-  "/profile": "Profile",
-  "/settings": "Settings",
-  "/signin": "Sign In",
-  "/forgot-password": "Forgot Password",
-  "/reset-password": "Reset Password",
-  "/rate-luma": "Rate LUMA",
-};
-
-const HIDDEN_ROUTES = new Set([
-  "/signin",
-  "/forgot-password",
-  "/reset-password",
-  "/profile",
-  "/settings",
-  "/rate-luma",
-]);
-
-function getTitle(pathname) {
-  if (pathname.startsWith("/movie/")) return "Movies";
-  if (pathname.startsWith("/browse/genre/")) return "Genre";
-  return PATH_TITLE_MAP[pathname] || "LUMA";
-}
-
 export default function TopBar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -45,8 +15,19 @@ export default function TopBar() {
   const [inputValue, setInputValue] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const wrapRef = useRef(null);
   const accountRef = useRef(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    setAccountOpen(false);
+  }, [pathname]);
 
   const submit = useCallback(() => {
     const q = inputValue.trim();
@@ -97,83 +78,85 @@ export default function TopBar() {
     await logOut();
   };
 
-  if (HIDDEN_ROUTES.has(pathname)) return null;
-
   return (
-    <header className={styles.topbar}>
-      <div className={styles.left}>
-        <h1 className={styles.pageTitle}>{getTitle(pathname)}</h1>
-      </div>
+    <header className={`${styles.topbar} ${scrolled ? styles.scrolled : ""}`}>
+      <div className={styles.inner}>
+        {/* Logo */}
+        <Link href="/" className={styles.logo} aria-label="LUMA home">
+          <span className={styles.logoMark}>L</span>
+          <span className={styles.logoText}>UMA</span>
+        </Link>
 
-      <div className={styles.searchArea} ref={wrapRef}>
-        <div className={`${styles.searchBar} ${showDropdown ? styles.searchBarActive : ""}`}>
-          <SearchIcon />
-          <input
-            type="search"
-            className={styles.searchInput}
-            placeholder="Search movies & TV…"
-            value={inputValue}
-            onChange={(e) => {
-              setInputValue(e.target.value);
-              if (!e.target.value.trim()) setSubmittedQuery("");
-            }}
-            onKeyDown={handleKeyDown}
-            autoComplete="off"
-            aria-label="Search movies and TV shows"
-          />
-          {inputValue && (
-            <button className={styles.clearBtn} onClick={clear} aria-label="Clear search">
-              <ClearIcon />
-            </button>
-          )}
-        </div>
-
-        {showDropdown && (
-          <SearchResults query={submittedQuery} onClose={clear} />
-        )}
-      </div>
-
-      <div className={styles.right}>
-        {isAuthenticated ? (
-          <div className={styles.accountSection} ref={accountRef}>
-            <button
-              className={styles.accountBtn}
-              onClick={() => setAccountOpen((o) => !o)}
-              aria-expanded={accountOpen}
-              aria-label="Account menu"
-            >
-              <div className={styles.accountAvatar}>
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt="" className={styles.accountAvatarImg} />
-                ) : (
-                  <span className={styles.accountAvatarInitial}>{avatarInitial}</span>
-                )}
-              </div>
-              <span className={styles.accountName}>{displayName}</span>
-              <ChevronIcon open={accountOpen} />
-            </button>
-
-            {accountOpen && (
-              <div className={styles.accountDropdown}>
-                <Link href="/profile" className={styles.accountDropdownItem} onClick={() => setAccountOpen(false)}>
-                  <UserIcon /> Profile
-                </Link>
-                <Link href="/settings" className={styles.accountDropdownItem} onClick={() => setAccountOpen(false)}>
-                  <SettingsIcon /> Settings
-                </Link>
-                <div className={styles.accountDropdownDivider} />
-                <button className={styles.accountDropdownItem} onClick={handleSignOut}>
-                  <SignOutIcon /> Sign Out
+        {/* Right side: search + account */}
+        <div className={styles.right}>
+          <div className={styles.searchArea} ref={wrapRef}>
+            <div className={`${styles.searchBar} ${showDropdown ? styles.searchBarActive : ""}`}>
+              <SearchIcon />
+              <input
+                type="search"
+                className={styles.searchInput}
+                placeholder="Search…"
+                value={inputValue}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  if (!e.target.value.trim()) setSubmittedQuery("");
+                }}
+                onKeyDown={handleKeyDown}
+                autoComplete="off"
+                aria-label="Search movies and TV shows"
+              />
+              {inputValue && (
+                <button className={styles.clearBtn} onClick={clear} aria-label="Clear search">
+                  <ClearIcon />
                 </button>
-              </div>
+              )}
+            </div>
+            {showDropdown && (
+              <SearchResults query={submittedQuery} onClose={clear} />
             )}
           </div>
-        ) : (
-          <Link href="/signin" className={styles.signInBtn}>
-            <UserIcon />
-            <span>Sign In</span>
-          </Link>
-        )}
+
+          {isAuthenticated ? (
+            <div className={styles.accountSection} ref={accountRef}>
+              <button
+                className={styles.accountBtn}
+                onClick={() => setAccountOpen((o) => !o)}
+                aria-expanded={accountOpen}
+                aria-label="Account menu"
+              >
+                <div className={styles.accountAvatar}>
+                  {avatarUrl ? (
+                    <img src={avatarUrl} alt="" className={styles.accountAvatarImg} />
+                  ) : (
+                    <span className={styles.accountAvatarInitial}>{avatarInitial}</span>
+                  )}
+                </div>
+                <span className={styles.accountName}>{displayName}</span>
+                <ChevronIcon open={accountOpen} />
+              </button>
+
+              {accountOpen && (
+                <div className={styles.accountDropdown}>
+                  <Link href="/profile" className={styles.accountDropdownItem} onClick={() => setAccountOpen(false)}>
+                    <UserIcon /> Profile
+                  </Link>
+                  <Link href="/settings" className={styles.accountDropdownItem} onClick={() => setAccountOpen(false)}>
+                    <SettingsIcon /> Settings
+                  </Link>
+                  <div className={styles.accountDropdownDivider} />
+                  <button className={styles.accountDropdownItem} onClick={handleSignOut}>
+                    <SignOutIcon /> Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/signin" className={styles.signInBtn}>
+              <UserIcon />
+              <span>Sign In</span>
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   );
@@ -209,7 +192,7 @@ function SettingsIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" suppressHydrationWarning>
       <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 .6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0 1.51 1z"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51 1z"/>
     </svg>
   );
 }

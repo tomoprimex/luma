@@ -110,16 +110,16 @@ export default function AuthModal({ onClose, initialTab = "signin", onAuthSucces
             <div className={styles.errorMsg} role="alert">{error}</div>
           )}
 
-          {tab === "signin" ? (
-            <form className={styles.form} onSubmit={handleSignIn} noValidate>
-              <div className={styles.field}>
-                <label className={styles.label} htmlFor="modal-email">Email</label>
-                <input id="modal-email" className={styles.input} type="email" required placeholder="you@example.com" />
-              </div>
-              <div className={styles.field}>
-                <label className={styles.label} htmlFor="modal-password">Password</label>
-                <input id="modal-password" className={styles.input} type="password" required placeholder="••••••••" />
-              </div>
+            {tab === "signin" ? (
+              <form className={styles.form} onSubmit={handleSignIn} noValidate>
+                <div className={styles.field}>
+                  <label className={styles.label} htmlFor="modal-email">Email</label>
+                  <input id="modal-email" name="email" className={styles.input} type="email" required placeholder="you@example.com" />
+                </div>
+                <div className={styles.field}>
+                  <label className={styles.label} htmlFor="modal-password">Password</label>
+                  <input id="modal-password" name="password" className={styles.input} type="password" required placeholder="••••••••" />
+                </div>
               <button className={styles.primaryBtn} type="submit" disabled={loading}>
                 {loading ? "Signing in…" : "Sign In"}
               </button>
